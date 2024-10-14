@@ -5,7 +5,6 @@ import {
   View,
   Text,
   ImageBackground,
-  StyleSheet,
   SafeAreaView,
   ScrollView,
   Pressable,
@@ -14,15 +13,10 @@ import {
   Modal,
   TouchableOpacity,
 } from 'react-native';
-
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
 import {launchImageLibrary} from 'react-native-image-picker';
 import LinearGradient from 'react-native-linear-gradient';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from './App';
+import {RootStackParamList} from './Naviagtors/index';
 import Input from './components/Input';
 
 type SignUpProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
@@ -48,7 +42,7 @@ const SignUp = ({navigation}: SignUpProps) => {
   const [modalView, showModalView] = useState(false);
   const [code, setCode] = useState('');
 
-  //modal for confimation of signup submission
+
   const [modal, showModal] = useState(false);
 
   const [flag, setFlag] = useState('');
@@ -117,13 +111,19 @@ const SignUp = ({navigation}: SignUpProps) => {
   }
   return (
     <ImageBackground
-      style={styles.inner}
+      className="flex-[1]"
       source={require('../assets/images/bgimg.png')}>
-      <SafeAreaView style={styles.container}>
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-          <View style={styles.box1}>
-            <Text style={styles.heading}>Hello there!</Text>
-            <Text style={styles.short}>Enter your personal details</Text>
+      <SafeAreaView className="flex-[1]">
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: 'space-between',
+          }}>
+          <View className="justify-center gap-1 mx-3 h-36">
+            <Text className="text-white text-4xl font-bold">Hello there!</Text>
+            <Text className="text-white text-base ">
+              Enter your personal details
+            </Text>
           </View>
           <Formik
             initialValues={{
@@ -134,27 +134,35 @@ const SignUp = ({navigation}: SignUpProps) => {
             }}
             onSubmit={values => console.log(values)}>
             {({}) => (
-              <View style={styles.box2}>
-                <View style={styles.ip1}>
-                  <Text style={styles.label}>Profile Photo</Text>
-                  <Pressable style={styles.image1} onPress={selectImage}>
+              <View className="flex-[1] bg-[#061d22] rounded-t-xl">
+                <View className="gap-1 mt-2 mx-3">
+                  <Text className="text-white font-bold">Profile Photo</Text>
+                  <Pressable
+                    className="bg-[#FAFAFA] w-36 h-36 rounded-full justify-center items-center gap-1"
+                    onPress={selectImage}>
                     {profileImage ? (
-                      <Image
-                        style={styles.image1}
-                        source={{uri: profileImage}}></Image>
+                      <>
+                        <Image
+                          className="w-36 h-36 rounded-full"
+                          source={{uri: profileImage}}
+                          resizeMode="cover"
+                        />
+                      </>
                     ) : (
                       <>
                         <Image
                           source={require('../assets/images/arrow.png')}></Image>
-                        <Text style={{color: '#B6B7B8'}}>Upload</Text>
+                        <Text className="text-[#B6B7B8]">Upload</Text>
                       </>
                     )}
                   </Pressable>
                 </View>
-                <Input label='First Name' name='firstname'/>
-                <Input label='Last Name' name='lastname'/>
-                <View style={styles.ip1}>
-                  <Text style={styles.label}>Phone Number</Text>
+                <Input label="First Name" name="firstname" />
+                <Input label="Last Name" name="lastname" />
+                <View className="mx-4 mt-3 ">
+                  <Text className="text-white mb-2 -ml-1 font-bold">
+                    Phone Number
+                  </Text>
                   <PhoneInput
                     defaultCountry="US"
                     value={inputValue}
@@ -163,52 +171,41 @@ const SignUp = ({navigation}: SignUpProps) => {
                     onChangeSelectedCountry={handleSelectedCountry}
                   />
                 </View>
-                <Input label='Email Address' name='email'/>
-                <Input label='Password' name='password'/>
+                <Input label="Email Address" name="email" />
+                <Input label="Password" name="password" />
 
-                <Pressable onPress={() => setShow(!show)} style={styles.ip1}>
+                <Pressable
+                  onPress={() => setShow(!show)}
+                  className="gap-1 mt-2 mx-3">
                   {show ? (
-                    <Text
-                      style={[
-                        styles.label,
-                        {
-                          color: '#96D701',
-                          fontSize: wp(4),
-                          textDecorationLine: 'underline',
-                        },
-                      ]}>
+                    <Text className="text-[#96D701] text-base underline font-bold">
                       Show Less
                     </Text>
                   ) : (
-                    <Text
-                      style={[
-                        styles.label,
-                        {
-                          color: '#96D701',
-                          fontSize: wp(4),
-                          textDecorationLine: 'underline',
-                        },
-                      ]}>
+                    <Text className="text-[#96D701] text-base underline font-bold">
                       Show More
                     </Text>
                   )}
                 </Pressable>
                 {show && (
                   <>
-                    <View style={styles.ip1}>
-                      <Text style={styles.label}>
+                    <View className="gap-1 mt-2 mx-3">
+                      <Text className="text-white font-bold mb-1">
                         Special Power of Attorney
                       </Text>
-                      <Pressable style={styles.image2} onPress={selectAttorney}>
+                      <Pressable
+                      style={{borderStyle:'dashed', borderColor:'white', borderWidth:1}}
+                        className="bg-[#0E4450] w-[26%] h-28 rounded-lg justify-center items-center"
+                        onPress={selectAttorney}>
                         {attorney ? (
                           <>
                             <Image
-                              style={styles.image2}
+                              className="w-28 h-28 rounded-lg"
                               source={{uri: attorney}}
                             />
                             <Pressable
                               onPress={() => setAttorney('')}
-                              style={styles.imageIcon}>
+                              className="absolute top-1 right-1">
                               <Image
                                 source={require('../assets/images/cross.png')}
                               />
@@ -222,22 +219,25 @@ const SignUp = ({navigation}: SignUpProps) => {
                         )}
                       </Pressable>
                     </View>
-                    <View style={[styles.ip1, {width: wp(80)}]}>
-                      <Text style={styles.label}>Service User Condition</Text>
+                    <View className="gap-1 mt-2 mx-3 w-4/5">
+                      <Text className="text-white font-bold mb-1">
+                        Service User Condition
+                      </Text>
                       <TextInput
-                        style={[styles.input2]}
+                        className="bg-[#FAFAFA] h-40 p-4 text-black rounded-xl"
                         placeholder="Type here"
                         textAlignVertical="top"
                         multiline={true}></TextInput>
                     </View>
-                    <View style={[styles.ip1]}>
-                      <View style={{flexDirection: 'row', gap: wp(2)}}>
+                    <View className=" mt-4 mx-4">
+                      <View className="flex-row gap-2">
                         <Pressable
-                          style={styles.image2}
+                        style={{borderStyle:'dashed', borderColor:'white', borderWidth:1}}
+                          className="bg-[#0E4450] w-[26%] h-28 rounded-lg justify-center items-center"
                           onPress={selectAttorney}>
                           {attorney ? (
                             <Image
-                              style={styles.image2}
+                              className="w-28 h-28 rounded-lg"
                               source={{uri: attorney}}></Image>
                           ) : (
                             <>
@@ -247,11 +247,12 @@ const SignUp = ({navigation}: SignUpProps) => {
                           )}
                         </Pressable>
                         <Pressable
-                          style={styles.image2}
+                        style={{borderStyle:'dashed', borderColor:'white', borderWidth:1}}
+                          className="bg-[#0E4450] w-[26%] h-28 rounded-lg justify-center items-center"
                           onPress={selectAttorney}>
                           {attorney ? (
                             <Image
-                              style={styles.image2}
+                              className="w-28 h-28 rounded-lg"
                               source={{uri: attorney}}></Image>
                           ) : (
                             <>
@@ -261,11 +262,12 @@ const SignUp = ({navigation}: SignUpProps) => {
                           )}
                         </Pressable>
                         <Pressable
-                          style={styles.image2}
+                          style={{borderStyle:'dashed', borderColor:'white', borderWidth:1}}
+                          className="bg-[#0E4450] w-[26%] h-28 rounded-lg justify-center items-center"
                           onPress={selectAttorney}>
                           {attorney ? (
                             <Image
-                              style={styles.image2}
+                              className="w-28 h-28 rounded-lg"
                               source={{uri: attorney}}></Image>
                           ) : (
                             <>
@@ -276,16 +278,18 @@ const SignUp = ({navigation}: SignUpProps) => {
                         </Pressable>
                       </View>
                     </View>
-                    <View style={styles.ip1}>
-                      <Text style={styles.label}>Service User Condition</Text>
-                      <View style={styles.boxes}>
+                    <View className="gap-1 mt-2 mx-3">
+                      <Text className="text-white font-bold">
+                        Service User Condition
+                      </Text>
+                      <View className="flex-row flex-wrap ">
                         {fconditions &&
                           fconditions.map(condition => (
-                            <View key={condition} style={styles.su2}>
+                            <View
+                              key={condition}
+                              className="bg-[#01C0AD] mr-2 mb-2 w-28 h-12 rounded-xl justify-center items-center relative ">
                               <>
-                                <Text style={{color: 'white'}}>
-                                  {condition}
-                                </Text>
+                                <Text className="text-white">{condition}</Text>
                                 <Pressable
                                   onPress={() => {
                                     setFconditions(
@@ -299,7 +303,7 @@ const SignUp = ({navigation}: SignUpProps) => {
                                       ),
                                     );
                                   }}
-                                  style={styles.imageIcon}>
+                                  className="absolute top-1 right-1">
                                   <Image
                                     source={require('../assets/images/cross.png')}
                                   />
@@ -308,46 +312,44 @@ const SignUp = ({navigation}: SignUpProps) => {
                             </View>
                           ))}
                         <Pressable
-                          style={styles.su}
+                          style={{borderStyle:'dashed', borderColor:'white', borderWidth:1}}
+                          className="bg-[#0E4450] w-28 h-12 rounded-xl justify-center items-center "
                           onPress={() => showModalView(true)}>
                           <>
-                            <Text style={{color: '#B6B7B8'}}>Add</Text>
+                            <Text className="text-[#B6B7B8]">Add</Text>
                           </>
                         </Pressable>
                       </View>
                     </View>
                     {modalView && (
                       <Modal>
-                        <View style={styles.modal}>
-                          <View style={styles.modalhead}>
+                        <View className="flex-[1] bg-[#061d22]">
+                          <View className="flex-row h-20 gap-4 my-2 mx-4 items-center">
                             <Pressable onPress={() => handleModalView()}>
                               <Image
+                                className="p-2"
                                 source={require('../assets/images/leftArrow.png')}
                               />
                             </Pressable>
-                            <Text style={styles.modalHeading}>
+                            <Text className="text-white font-bold text-2xl">
                               Service User Condition
                             </Text>
                           </View>
-                          <View style={styles.cbox}>
+                          <View className="flex-[1] flex-row flex-wrap gap-4 mx-5">
                             {serviceUserCondition.map(condition => (
                               <TouchableOpacity
                                 onPress={() => handleTouch(condition)}
                                 key={condition}>
                                 <View
-                                  style={[
-                                    styles.cBoxView,
-                                    conditions.includes(condition) && {
-                                      backgroundColor: '#01C0AD',
-                                    },
-                                  ]}>
+                                  className={`p-4 border-x border-y border-[#D9D9D9] rounded-xl ${
+                                    conditions.includes(condition) &&
+                                    'bg-[#01C0AD]'
+                                  } `}>
                                   <Text
-                                    style={[
-                                      styles.cBoxText,
-                                      conditions.includes(condition) && {
-                                        color: 'white',
-                                      },
-                                    ]}>
+                                    className={`text-[#D9D9D9] text-lg ${
+                                      conditions.includes(condition) &&
+                                      'text-white'
+                                    }`}>
                                     {condition}
                                   </Text>
                                 </View>
@@ -355,10 +357,12 @@ const SignUp = ({navigation}: SignUpProps) => {
                             ))}
                           </View>
                           <LinearGradient
-                            style={styles.press}
+                            className="mx-4 rounded-xl mb-8"
                             colors={['#01C6B2', '#01665C']}>
-                            <Pressable style={styles.btn} onPress={handleModal}>
-                              <Text style={[styles.text, {fontSize: hp(2)}]}>
+                            <Pressable
+                              className="p-4 justify-center items-center"
+                              onPress={handleModal}>
+                              <Text className="text-white font-normal text-lg">
                                 Save
                               </Text>
                             </Pressable>
@@ -369,20 +373,22 @@ const SignUp = ({navigation}: SignUpProps) => {
                   </>
                 )}
                 <LinearGradient
-                  style={styles.press1}
+                  className="mt-8 mx-10 mb-1 rounded-xl"
                   colors={['#01C6B2', '#01665C']}>
-                  <Pressable style={styles.btn} onPress={() => showModal(true)}>
-                    <Text style={[styles.label, {fontSize: hp(2)}]}>Save</Text>
+                  <Pressable
+                    className="p-4 justify-center items-center"
+                    onPress={() => showModal(true)}>
+                    <Text className="text-white font-bold text-lg">Save</Text>
                   </Pressable>
                 </LinearGradient>
                 {modal && (
                   <Modal>
-                    <View style={styles.modal2}>
-                      <View style={styles.modal2View}>
-                        <Text style={styles.modalText}>
+                    <View className="flex-[1] bg-[#000000] justify-end">
+                      <View className="rounded-3xl flex-[0.3] justify-center items-center bg-white">
+                        <Text className="text-center text-2xl text-[#000000] font-bold mx-20 mb-6">
                           Are you sure you want to save your profile details?
                         </Text>
-                        <View style={styles.modalButton}>
+                        <View className="flex-row gap-6">
                           <Pressable
                             onPress={() => {
                               showModal(false);
@@ -392,16 +398,17 @@ const SignUp = ({navigation}: SignUpProps) => {
                                 showEndModal(false);
                               }, 1500);
                             }}
-                            style={styles.modalButton1}>
-                            <Text style={styles.text}>Yes</Text>
+                            className="p-2 w-32 justify-center items-center bg-[#01C0AD] rounded-2xl">
+                            <Text className="text-white font-normal text-lg">
+                              Yes
+                            </Text>
                           </Pressable>
                           <Pressable
                             onPress={() => showModal(false)}
-                            style={[
-                              styles.modalButton1,
-                              {backgroundColor: '#FD003A'},
-                            ]}>
-                            <Text style={styles.text}>No</Text>
+                            className="bg-[#FD003A] p-2 w-32 justify-center items-center rounded-2xl">
+                            <Text className="text-white font-normal text-lg">
+                              No
+                            </Text>
                           </Pressable>
                         </View>
                       </View>
@@ -410,16 +417,10 @@ const SignUp = ({navigation}: SignUpProps) => {
                 )}
                 {endmodal && (
                   <Modal>
-                    <View style={styles.modal2}>
-                      <View style={styles.modal3View}>
+                    <View className="flex-[1] bg-[#000000] justify-end">
+                      <View className="rounded-3xl flex-[0.1] flex-row justify-center items-center bg-white ">
                         <Image source={require('../assets/images/done.png')} />
-                        <Text
-                          style={{
-                            fontSize: wp(4),
-                            fontWeight: 'bold',
-                            textAlign: 'center',
-                            color: 'black',
-                          }}>
+                        <Text className="text-xl font-bold text-center text-black ml-4">
                           Profile Saved
                         </Text>
                       </View>
@@ -428,12 +429,12 @@ const SignUp = ({navigation}: SignUpProps) => {
                 )}
 
                 <LinearGradient
-                  style={styles.press2}
+                  className="mx-10 rounded-xl mb-1"
                   colors={['#061d22', '#061d22']}>
                   <Pressable
-                    style={styles.btn}
+                    className="p-4 justify-center items-center"
                     onPress={() => navigation.navigate('Screen1')}>
-                    <Text style={[styles.label, {fontSize: hp(2)}]}>Back</Text>
+                    <Text className="text-white font-bold text-lg">Back</Text>
                   </Pressable>
                 </LinearGradient>
               </View>
@@ -444,222 +445,5 @@ const SignUp = ({navigation}: SignUpProps) => {
     </ImageBackground>
   );
 };
-
-const styles = StyleSheet.create({
-  inner: {
-    flex: 1,
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    justifyContent: 'space-between',
-  },
-  container: {
-    flex: 1,
-  },
-  box1: {
-    justifyContent: 'center',
-    gap: hp(0.5),
-    marginHorizontal: wp(2),
-    height: hp(15),
-  },
-  box2: {
-    flex: 1,
-    backgroundColor: '#061d22',
-    borderTopLeftRadius: wp(4),
-    borderTopRightRadius: wp(4),
-  },
-  heading: {
-    color: 'white',
-    fontSize: wp(10),
-    fontWeight: 'bold',
-  },
-  short: {
-    color: 'white',
-    fontSize: wp(4.3),
-  },
-  ip1: {
-    gap: hp(1),
-    marginTop: hp(2),
-    marginHorizontal: wp(3),
-  },
-  label: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  image1: {
-    backgroundColor: '#FAFAFA',
-    width: hp(16),
-    height: hp(16),
-    borderRadius: hp(8),
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: hp(1),
-  },
-  input: {
-    padding: wp(2.1),
-    backgroundColor: '#FAFAFA',
-    borderRadius: wp(2.5),
-    paddingLeft: wp(4),
-    color: 'black',
-  },
-  drop: {
-    backgroundColor: '#EDEADE',
-    padding: wp(3),
-    flex: 1,
-    borderTopLeftRadius: wp(2.5),
-    borderBottomLeftRadius: wp(2.5),
-  },
-  btn: {
-    padding: hp(2),
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  press1: {
-    marginTop: hp(2),
-    marginHorizontal: wp(9),
-    borderRadius: 12,
-    marginBottom: hp(1),
-  },
-  press2: {
-    marginHorizontal: wp(9),
-    borderRadius: 12,
-    marginBottom: hp(1),
-  },
-  image2: {
-    backgroundColor: '#0E4450',
-    width: hp(13.1),
-    height: hp(13.1),
-    borderRadius: hp(1),
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderStyle: 'dashed',
-    borderColor: 'white',
-    borderWidth: wp(0.4),
-    position: 'relative',
-  },
-  imageIcon: {
-    position: 'absolute',
-    top: hp(0.5),
-    right: hp(0.5),
-  },
-  input2: {
-    height: hp(15),
-    backgroundColor: '#FAFAFA',
-    borderRadius: wp(2.5),
-    padding: wp(4),
-    color: 'black',
-  },
-  su: {
-    backgroundColor: '#0E4450',
-    width: hp(13.5),
-    height: hp(6.1),
-    borderRadius: hp(2),
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderStyle: 'dashed',
-    borderColor: 'white',
-    borderWidth: wp(0.4),
-  },
-  su2: {
-    backgroundColor: '#01C0AD',
-    width: hp(13.5),
-    height: hp(6.1),
-    borderRadius: hp(2),
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-  },
-  modal: {
-    flex: 1,
-    backgroundColor: '#061d22',
-  },
-  modalhead: {
-    flexDirection: 'row',
-    height: hp(10),
-    gap: wp(4),
-    marginVertical: hp(2),
-    marginHorizontal: wp(8),
-    alignItems: 'center',
-  },
-  modalHeading: {
-    color: 'white',
-    fontSize: hp(3),
-    fontWeight: 'bold',
-  },
-  cbox: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginHorizontal: wp(4),
-    gap: wp(4),
-  },
-  cBoxView: {
-    padding: wp(3),
-    borderWidth: 1,
-    borderColor: '#D9D9D9',
-    borderRadius: wp(3.5),
-  },
-  cBoxText: {
-    color: '#D9D9D9',
-    fontSize: wp(5),
-  },
-  boxes: {
-    flexDirection: 'row',
-    gap: wp(2),
-    flexWrap: 'wrap',
-  },
-  press: {
-    marginHorizontal: wp(3),
-    borderRadius: 12,
-    marginBottom: hp(8),
-  },
-  text: {
-    color: 'white',
-    fontWeight: 'normal',
-    fontSize: wp(3.5),
-  },
-  modal2: {
-    flex: 1,
-    backgroundColor: '#000000',
-    justifyContent: 'flex-end',
-  },
-  modal2View: {
-    borderRadius: hp(3),
-    flex: 0.3,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    gap: hp(4),
-  },
-  modalText: {
-    textAlign: 'center',
-    fontSize: wp(6),
-    color: '#000000',
-    fontWeight: 'bold',
-    marginHorizontal: wp(13),
-  },
-  modalButton: {
-    flexDirection: 'row',
-
-    gap: wp(5),
-  },
-  modalButton1: {
-    padding: hp(2),
-    width: wp(32),
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#01C0AD',
-    borderRadius: wp(4),
-  },
-  modal3View: {
-    borderRadius: hp(2),
-    flex: 0.1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    gap: wp(4),
-  },
-});
 
 export default SignUp;

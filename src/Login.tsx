@@ -1,22 +1,14 @@
 import React, {useState} from 'react';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+
 import LinearGradient from 'react-native-linear-gradient';
 import CheckBox from '@react-native-community/checkbox';
 import {Formik} from 'formik';
 import axios from 'axios';
 import userSchema from '../validation_schema/login_schema';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from './Naviagtors/index';
 
-
-
-
-import {NativeStackScreenProps} from "@react-navigation/native-stack"
-import {RootStackParamList} from './App'
-
-
-type HomeProps = NativeStackScreenProps<RootStackParamList, 'Login'>
+type HomeProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 import {
   Image,
@@ -24,27 +16,30 @@ import {
   Pressable,
   SafeAreaView,
   ScrollView,
-  StyleSheet,
   Text,
   TextInput,
   View,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-const Login = ({navigation}:HomeProps) => {
+const Login = ({navigation}: HomeProps) => {
   const [toggleC, setToggleC] = useState(false);
   const [toggleP, setToggleP] = useState(true);
   return (
     <ImageBackground
-      style={styles.inner}
+      className="flex-[1]"
       source={require('../assets/images/bgimg.png')}>
-      <SafeAreaView style={styles.container}>
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-          <View style={styles.box1}>
+      <SafeAreaView className="flex-[1] ">
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}>
+          <View className="flex-[2] gap-3 justify-center items-center">
             <Image source={require('../assets/images/logo.png')} />
-            <Text style={styles.heading}>Welcome Back!</Text>
-            <Text style={styles.text}>Login to your account</Text>
+            <Text className="text-white text-3xl  font-bold">
+              Welcome Back!
+            </Text>
+            <Text className="text-white font-normal text-lg">
+              Login to your account
+            </Text>
           </View>
 
           <Formik
@@ -53,11 +48,13 @@ const Login = ({navigation}:HomeProps) => {
               axios
                 .post('http://10.0.2.2:3000/users/login', values)
                 .then(res => {
-                AsyncStorage.setItem('token',res.data.token).then(()=>{
-                  navigation.replace('Dashboard');
-                }).catch(error=>{
-                  console.warn( error )
-                })
+                  AsyncStorage.setItem('token', res.data.token)
+                    .then(() => {
+                      navigation.replace('Dashboard');
+                    })
+                    .catch(error => {
+                      console.warn(error);
+                    });
                 })
                 .catch(error => {
                   console.warn('Login failed. Please check your credentials.');
@@ -72,35 +69,38 @@ const Login = ({navigation}:HomeProps) => {
               errors,
               touched,
             }) => (
-              <View style={styles.box2}>
-                <View style={styles.ip}>
-                  <Text style={styles.label}>Email Address</Text>
+              <View className=" flex-[2] mx-3 mt-2">
+                <View className="gap-2 mb-4">
+                  <Text className="text-white font-normal text-base ">
+                    Email Address
+                  </Text>
                   <TextInput
                     value={values.email}
                     onChangeText={handleChange('email')}
                     onBlur={handleBlur('email')}
-                    style={styles.input}
+                    className="bg-white p-3  border-0 rounded-xl text-black"
                     placeholder="Type here"
-                  
                   />
                   {touched.email && errors.email ? (
-                    <Text style={{color: 'red', fontSize: 15, marginLeft: 23}}>
+                    <Text className='text-red-600 text-base pl-1'>
                       {errors.email}
                     </Text>
                   ) : null}
                 </View>
-                <View style={styles.ip}>
-                  <Text style={styles.label}>Password</Text>
+                <View className="gap-2 mb-4">
+                  <Text className="text-white font-normal text-base ml-4">
+                    Password
+                  </Text>
                   <TextInput
                     value={values.password}
                     onChangeText={handleChange('password')}
                     onBlur={handleBlur('password')}
-                    style={[styles.input, {position: 'relative'}]}
+                    className="bg-white p-3  border-0 rounded-xl text-black relative"
                     placeholder="Type here"
                     secureTextEntry={toggleP}
                   />
                   <Pressable
-                    style={styles.eyeIcon}
+                    className="absolute top-11 right-4"
                     onPress={() => setToggleP(!toggleP)}>
                     {toggleP ? (
                       <Image source={require('../assets/images/eye.png')} />
@@ -109,42 +109,57 @@ const Login = ({navigation}:HomeProps) => {
                     )}
                   </Pressable>
                   {touched.password && errors.password ? (
-                    <Text style={{color: 'red', fontSize: 15, marginLeft: 23}}>
+                    <Text className='text-red-600 text-base pl-1'>
                       {errors.password}
                     </Text>
                   ) : null}
                 </View>
-                <View style={styles.fp}>
-                  <Text onPress={()=>navigation.navigate('ForgotPassword')} style={styles.fptext}>Forgot password?</Text>
+                <View className="flex-row  justify-end ">
+                  <Text
+                    onPress={() => navigation.navigate('ForgotPassword')}
+                    className="text-[#FFA3A3] font-medium text-base">
+                    Forgot password?
+                  </Text>
                 </View>
                 <LinearGradient
-                  style={styles.press}
+                  className="mt-4 mb-1 rounded-xl"
                   colors={['#01C6B2', '#01665C']}>
-                  <Pressable onPress={(e:any) => handleSubmit(e)} style={styles.btn}>
-                    <Text style={[styles.text, {fontSize: hp(2)}]}>Login</Text>
+                  <Pressable
+                    onPress={(e: any) => handleSubmit(e)}
+                    className="p-4 justify-center items-center">
+                    <Text className="text-white font-normal text-lg">
+                      Login
+                    </Text>
                   </Pressable>
                 </LinearGradient>
-                <View style={styles.check}>
+                <View className="flex-row -ml-1 items-center">
                   <CheckBox
                     tintColors={{true: 'white', false: 'white'}}
                     disabled={false}
                     value={toggleC}
                     onValueChange={newValue => setToggleC(newValue)}
                   />
-                  <Text style={[styles.text]}>Remember Me</Text>
+                  <Text className="text-white font-normal text-base">
+                    Remember Me
+                  </Text>
                 </View>
               </View>
             )}
           </Formik>
-          <View style={styles.box3}>
-            <Text style={[styles.text, {textAlign: 'center'}]}>
+          <View className="flex-[2] mx-3 gap-10">
+            <Text className="text-white font-normal text-base text-center">
               By signing in to your account, you are agreeing to our{' '}
-              <Text style={{color: '#96D701'}}>Privacy & Policy</Text> and{' '}
-              <Text style={{color: '#96D701'}}>Terms & Conditions.</Text>
+              <Text className="text-[#96D701]">Privacy & Policy</Text> and{' '}
+              <Text className="text-[#96D701]">Terms & Conditions.</Text>
             </Text>
-            <Text style={[styles.text, {textAlign: 'center'}]}>
+            <Text className="text-white font-normal text-base text-center">
               Don't have an account yet?{' '}
-              <Text onPress={()=>navigation.navigate('SignUp')} style={{color: 'cyan'}}> Create one </Text>
+              <Text
+                onPress={() => navigation.navigate('SignUp')}
+                className='text-cyan-400'>
+                {' '}
+                Create one{' '}
+              </Text>
             </Text>
           </View>
         </ScrollView>
@@ -152,92 +167,5 @@ const Login = ({navigation}:HomeProps) => {
     </ImageBackground>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  inner: {
-    flex: 1,
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    justifyContent: 'space-between',
-  },
-  box1: {
-    flex: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: hp(1),
-  },
-  heading: {
-    color: 'white',
-    fontSize: wp(6),
-    fontWeight: 'bold',
-  },
-  text: {
-    color: 'white',
-    fontWeight: 'normal',
-    fontSize: wp(3.5),
-  },
-  box2: {
-    flex: 2,
-    justifyContent: 'center',
-  },
-  box3: {
-    flex: 2,
-    marginHorizontal: wp(3),
-    gap: hp(6),
-  },
-  input: {
-    backgroundColor: 'white',
-    padding: wp(3),
-    marginHorizontal: wp(3),
-    borderWidth: 1,
-    borderRadius: 12,
-    color:'black'
-  },
-  label: {
-    color: 'white',
-    fontWeight: 'normal',
-    fontSize: wp(4),
-    marginHorizontal: wp(3),
-  },
-  ip: {
-    gap: hp(1),
-    marginBottom: hp(2),
-  },
-  fp: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginHorizontal: wp(3),
-  },
-  fptext: {
-    color: '#FFA3A3',
-    fontWeight: 'medium',
-    fontSize: wp(4),
-  },
-  eyeIcon: {
-    position: 'absolute',
-    top: wp(11),
-    right: wp(7),
-  },
-  btn: {
-    padding: hp(2.2),
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  press: {
-    marginTop: hp(2),
-    marginHorizontal: wp(3),
-    borderRadius: 12,
-    marginBottom: hp(1),
-  },
-  check: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: wp(3),
-  },
-});
 
 export default Login;

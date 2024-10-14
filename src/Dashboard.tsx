@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View, Pressable , Button} from 'react-native'
+import { Text, View, Pressable , Button} from 'react-native'
 import React from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { RootStackParamList } from './App'
+import {RootStackParamList} from './Naviagtors/index';
 type DashboardProps = NativeStackScreenProps<RootStackParamList,'Dashboard'>
 
 const Dashboard = ({navigation}:DashboardProps) => {
@@ -24,5 +24,3 @@ const Dashboard = ({navigation}:DashboardProps) => {
 }
 
 export default Dashboard
-
-const styles = StyleSheet.create({})

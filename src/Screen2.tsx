@@ -1,5 +1,4 @@
 import {
-  StyleSheet,
   Text,
   View,
   ImageBackground,
@@ -9,51 +8,48 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import React from 'react';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from './App';
+import {RootStackParamList} from './Naviagtors/index';
 
 type Screen2Props = NativeStackScreenProps<RootStackParamList, 'Screen2'>;
 const Screen2 = ({navigation}: Screen2Props) => {
   return (
-    <SafeAreaView style={styles.main}>
+    <SafeAreaView className="flex-[1]">
       <ImageBackground
-        style={styles.bgimg}
+        className="flex-[1]"
         source={require('../assets/images/bgimg3.png')}>
-        <View style={styles.box1}></View>
+        <View className="flex-[1]"></View>
 
         <ImageBackground
-          style={styles.box2}
+           className="flex-[1] overflow-hidden rounded-t-3xl"
           source={require('../assets/images/halfbgimg.png')}>
-          <View style={styles.box2View}>
-            <Text style={styles.heading}>Service Is Service </Text>
-            <Text style={styles.heading}>User-Centered Care</Text>
-            <Text style={styles.text}>
+          <View className='flex-[1] mt-6'>
+            <Text className='text-white text-4xl font-bold ml-4'>Service Is Service </Text>
+            <Text className='text-white text-4xl font-bold ml-4'>User-Centered Care</Text>
+            <Text className='text-white ml-4 mr-16 my-4 text-base'>
               Care that includes Service Users and their families as part of the
               care team's decision-making.
             </Text>
             <LinearGradient
-              style={styles.press}
+              className='mt-4 mx-3 rounded-xl'
               colors={['#01C6B2', '#01665C']}>
               <Pressable
-                style={styles.btn}
+                className='justify-center items-center p-2'
                 onPress={() => navigation.navigate('SignUp')}>
-                <Text style={[styles.text, {fontSize: hp(2),fontWeight:'bold'}]}>
+                <Text className='text-white my-1 text-xl'>
                   I am a Service User
                 </Text>
               </Pressable>
             </LinearGradient>
 
             <LinearGradient
-              style={styles.press}
+               className='mt-4 mx-3 rounded-xl'
               colors={['#01C6B2', '#01665C']}>
               <Pressable
-                style={styles.btn}
+                className='justify-center items-center p-2'
                 onPress={() => navigation.navigate('SignUp')}>
-                <Text style={[styles.text, {fontSize: hp(2),fontWeight:'bold'}]}>
+                <Text className='text-white my-1 text-xl'>
                   I am a Care Giver
                 </Text>
               </Pressable>
@@ -68,61 +64,3 @@ const Screen2 = ({navigation}: Screen2Props) => {
 
 export default Screen2;
 
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-  },
-  bgimg: {
-    flex: 1,
-    overflow: 'hidden',
-  },
-  box1: {
-    flex: 1,
-  },
-  box2: {
-    flex: 1,
-    marginTop: hp(2),
-    overflow: 'hidden',
-    borderTopLeftRadius: wp(5),
-    borderTopRightRadius: wp(5),
-  },
-  box2View: {
-    flex: 1,
-    marginTop: hp(3),
-  },
-  heading: {
-    color: 'white',
-    fontSize: wp(9.3),
-    fontWeight: 'bold',
-    marginLeft: wp(4),
-    marginRight: wp(12),
-    marginVertical: hp(-0.5),
-  },
-  text: {
-    color: 'white',
-    fontSize: wp(4),
-    marginLeft: wp(4),
-    marginRight: wp(9),
-    marginVertical: hp(1),
-  },
-  btn2: {
-    padding: hp(1),
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: hp(2),
-    marginHorizontal: wp(3),
-    borderRadius: 12,
-    borderColor: 'white',
-    borderWidth: wp(0.3),
-  },
-  btn: {
-    padding: hp(1),
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  press: {
-    marginTop: hp(2),
-    marginHorizontal: wp(3),
-    borderRadius: 12,
-  },
-});

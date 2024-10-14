@@ -1,13 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {ImageBackground, StyleSheet, View, Image, Text} from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
-import Screen1 from './Screen1';
+import React, {useEffect} from 'react';
+import {ImageBackground, View, Image, Text} from 'react-native';
+
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from './App';
+import {RootStackParamList} from './Naviagtors/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 type SplashScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -37,37 +33,18 @@ const SplashScreen = ({navigation}: SplashScreenProps) => {
   return (
     <>
       <ImageBackground
-        style={styles.main}
+        className='flex-[1]'
         source={require('../assets/images/bgimg.png')}>
-        <View style={styles.box}>
+        <View className='flex-[1] gap-4 justify-start items-center mt-28'>
           <Image source={require('../assets/images/splash.png')} />
-          <Text style={styles.heading}>Medika</Text>
-          <Text style={styles.bodyText}>Health at your Service</Text>
+          <Text className='text-white font-bold text-5xl'>Medika</Text>
+          <Text className='text-white text-xl'>Health at your Service</Text>
         </View>
       </ImageBackground>
     </>
   );
 };
 
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-  },
-  box: {
-    flex: 1,
-    marginTop: hp(18),
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-  heading: {
-    fontSize: hp(6),
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  bodyText: {
-    color: 'white',
-    fontSize: hp(2.3),
-  },
-});
+
 
 export default SplashScreen;
